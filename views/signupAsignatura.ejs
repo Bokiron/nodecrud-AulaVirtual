@@ -1,0 +1,48 @@
+<% include partials/_header %>
+
+<h2 class="text-center mt-4">Crear Asignatura Nueva</h2>
+<!-- Esto pone el formulario en el centro de la pantalla. -->
+<div class="row justify-content-center mt-3">
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-body">
+                <form action="/signupAsignatura" method="POST">
+                    <p>
+                        <input type="text" name="nombre" placeholder="Nombre" required>
+                        <input type="number" name="curso" placeholder="Curso" min="0" max="4" value="0" required>
+                    </p>
+                    <p>
+                        <!-- Desplegable para seleccionar un estudio -->
+                        <select name="estudio_id" required>
+                            <% estudios.forEach(estudio => { %>
+                                <option value="<%= estudio._id %>"><%= estudio.nombre+" - "+estudio.tipo %></option>
+                            <% }) %>
+                        </select>
+
+                        <% if (messages.errorMessage) { %>
+                            <div class="alert alert-danger"><%= messages.errorMessage %></div>
+                          <% } %>
+                          
+                          <% if (messages.successMessage) { %>
+                            <div class="alert alert-success"><%= messages.successMessage %></div>
+                          <% } %>
+
+                        <button class="btn btn-primary" type="submit">
+                            Crear Asignatura
+                        </button>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% if (signupMessage) { %>
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-5 text-center">
+            <p style="color:#FF0000;"><%= signupMessage %></p>
+        </div>
+    </div>
+<% } %>
+
+<% include partials/_footer %>

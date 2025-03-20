@@ -1,0 +1,80 @@
+<% include partials/_header %>
+
+<h2 class="text-center mt-4">Edición de las Asignaturas de Alumnos</h2>
+<div class="row justify-content-center mt-3">
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-body">
+                <form method="POST">
+                    <p>
+                        <select name="usuario_id" id="usuario_id" required>
+                            <% if (usuarios && usuarios.length > 0) { %>
+                                <% usuarios.forEach((usuario, index) => { %>
+                                    <option value="<%= usuario._id %>" data-asignaturas="<%= JSON.stringify(usuario.asignaturas) %>" <%= index === usuarios.length - 1 ? 'selected' : '' %>>
+                                        <%= usuario.nombre + " " + usuario.apellidos %>
+                                    </option>
+                                <% }) %>
+                            <% } else { %>
+                                <option value="">No hay alumnos disponibles</option>
+                            <% } %>
+                        </select>
+                    </p>
+                    <p>
+                        <select name="asignatura_id" id="asignatura_id" required>
+                            <% if (asignaturas && asignaturas.length > 0) { %>
+                                <% asignaturas.forEach((asignatura, index) => { %>
+                                    <option value="<%= asignatura._id %>" <%= index === asignaturas.length - 1 ? 'selected' : '' %>>
+                                        <%= asignatura.nombre + " - " + asignatura.curso %> ( <%= asignatura.estudio.nombre + " - " + asignatura.estudio.tipo %> )
+                                    </option>
+                                <% }) %>
+                            <% } else { %>
+                                <option value="">No hay asignaturas disponibles</option>
+                            <% } %>
+                        </select>
+                    </p>
+                    <p>
+                        <button action="/signupAsignaturaAlumno" class="btn btn-primary" type="submit" id="matriculaButton">
+                            Matricular al Alumno
+                        </button>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% if (signupMessage) { %>
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-5 text-center">
+            <p style="color:#FF0000;"><%= signupMessage %></p>
+        </div>
+    </div>
+<% } %>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const usuarioSelect = document.getElementById('usuario_id');
+    const asignaturaSelect = document.getElementById('asignatura_id');
+    const matriculaButton = document.getElementById('matriculaButton');
+
+    function updateButtonText() {
+      const selectedUsuario = usuarioSelect.options[usuarioSelect.selectedIndex];
+      const selectedAsignatura = asignaturaSelect.value;
+      const asignaturasAlumno = JSON.parse(selectedUsuario.dataset.asignaturas);
+
+      if (asignaturasAlumno.includes(selectedAsignatura)) {
+        matriculaButton.textContent = 'Desmatricular al Alumno';
+      } else {
+        matriculaButton.textContent = 'Matricular al Alumno';
+      }
+    }
+
+    usuarioSelect.addEventListener('change', updateButtonText);
+    asignaturaSelect.addEventListener('change', updateButtonText);
+
+    // Llamar a la función inicialmente para establecer el texto correcto
+    updateButtonText();
+  });
+</script>
+
+<% include partials/_footer %>

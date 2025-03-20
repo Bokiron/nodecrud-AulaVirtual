@@ -1,0 +1,86 @@
+<% include partials/_header %>
+
+<div class="container mt-4">
+    <%if (user.rol.toLowerCase() != "alumno") {%>     
+
+    <div class="row">
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-body">
+                    <form action="/signupSoftware/<%=asignatura._id%>" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="link" placeholder="Enlace">
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control" name="descripcion" cols="80" placeholder="Descripcion"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <input id="archivo" class="form-control-file" type="file" name="archivo">
+                        </div>
+                        <button class="btn btn-primary" type="submit">Add</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <%}%>
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-body">
+                    <h2>Software de la Asignatura: <%= asignatura.nombre %></h2>
+                    <% if (software && software.length > 0) { %>
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Descripción</th>
+                                    <th>Enlace</th>
+                                    <th>Archivo</th>
+                                    <%if (user.rol.toLowerCase() != "alumno") {%>     
+                                    <th>Operaciones</th>
+                                    <%}%>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% software.forEach(sw => { %>
+                                    <tr>
+                                        <td><%= sw.descripcion %></td>
+                                        <td><a href="https://<%= sw.link %>" target="_blank"><%= sw.link %></a></td>
+                                        <td>
+                                            <% if (sw.archivo) { 
+                                                let partes = sw.archivo.split("-_-"); // Divide el string en partes usando "-_-"
+                                                    let nombreConExtension = partes.slice(2).join("-_-"); // Une desde el segundo "-_-"
+                                                    let nombreFinal = (partes.length >= 3) ? partes.slice(2).join("-_-").split('.').slice(0, -1).join('.') : "Sin nombre";
+                                            %> 
+                                              <a href="/files/<%= sw.archivo %>" download="<%= nombreConExtension %>">
+                                                <%= nombreFinal %>
+                                              </a>
+                                            
+                                            <% } else { %>
+                                              <em>No file</em>
+                                            <% } %>
+                                          </td>                                          
+                                          
+                                        <%if (user.rol.toLowerCase() != "alumno") {%>     
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <a href="/software/edit/<%= sw._id %>" class="btn btn-info btn-sm me-1" style="width: 60px;">Edit</a>
+                                                <a href="/software/delete/<%= sw._id %>" class="btn btn-danger btn-sm" style="width: 60px;">Delete</a>
+                                            </div>
+                                        </td>
+                                        <%}%>
+
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    <% } else { %>
+                        <p>No hay software asociado a esta asignatura.</p>
+                    <% } %>
+                    <a href="/asignaturas" class="btn btn-secondary">Volver a la lista de asignaturas</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include partials/_footer %>

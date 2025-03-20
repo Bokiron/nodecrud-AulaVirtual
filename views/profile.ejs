@@ -1,0 +1,37 @@
+<% include partials/_header %>
+
+
+
+<div class="col-md-7 mx-auto">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th class="mx-auto text-center"colspan="2">Usuario</th>
+        </tr>
+      </thead>
+      <tbody>
+
+          <tr>
+            <th>Nombre</th>
+            <td><%= user.nombre%></td>
+          </tr>
+          <tr>
+            <th>Apellidos</th>
+            <td><%= user.apellidos%></td>
+          </tr>
+          <tr>
+            <th>Rol</th>
+            <td><%= user.rol%></td>
+          </tr>
+          <tr>
+            <th>Email</th>
+            <td><%= user.email%></td>
+          </tr>          
+      </tbody>
+    </table>     
+      <% if (signupMessage) { %>
+        <p style="color:#FF0000;"><%= signupMessage %></p>
+      <% } %>   
+  </div>
+</div>
+<% include partials/_footer %>
