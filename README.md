@@ -38,23 +38,7 @@ Este Aula Virutal es una aplicación web diseñada para la gestión del software
 - **Frontend:** React.js / Vue.js
 - **Estilos:** Tailwind CSS / Bootstrap
 
-## Instalación y Configuración
-1. Clonar el repositorio:
-   ```sh
-   git clone https://github.com/tu-usuario/esi-app-store.git
-   ```
-2. Instalar dependencias:
-   ```sh
-   cd esi-app-store
-   npm install
-   ```
-3. Configurar variables de entorno en un archivo `.env`:
-   ```env
-   PORT=5000
-   DB_URI=mongodb://localhost:27017/esi_app_store
-   JWT_SECRET=supersecreto
-   ```
-4. Ejecutar el servidor:
+
    ```sh
    npm start
    ```
