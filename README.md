@@ -37,8 +37,3 @@ Este Aula Virutal es una aplicación web diseñada para la gestión del software
 - **Autenticación:** JSON Web Tokens (JWT)
 - **Frontend:** React.js / Vue.js
 - **Estilos:** Tailwind CSS / Bootstrap
-
-
-   ```sh
-   npm start
-   ```
